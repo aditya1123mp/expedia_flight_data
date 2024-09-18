@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TestCaseEntity>
+   <description></description>
+   <name>Test_Case_to_put_data_for_flight_destination</name>
+   <tag></tag>
+   <comment></comment>
+   <recordOption>OTHER</recordOption>
+   <testCaseGuid>fde2647f-051e-4df7-bbb3-d52f0a60632c</testCaseGuid>
+</TestCaseEntity>
