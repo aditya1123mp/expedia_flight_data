@@ -21,3 +21,7 @@ WebUI.callTestCase(findTestCase('Test_Case_To_Access_Expedia_Site'), [:], Failur
 
 WebUI.callTestCase(findTestCase('Test_Case_to_put_data_for_flight_destination'), [:], FailureHandling.STOP_ON_FAILURE)
 
+WebUI.callTestCase(findTestCase('Test_case_Captcha_solving'), [:], FailureHandling.STOP_ON_FAILURE)
+
+
+

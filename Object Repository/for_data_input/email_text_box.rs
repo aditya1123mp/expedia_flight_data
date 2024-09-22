@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <WebElementEntity>
    <description></description>
-   <name>going_to_text_box</name>
+   <name>email_text_box</name>
    <tag></tag>
-   <elementGuidId>fc52271a-68e3-4ae4-a589-9c7d117981e8</elementGuidId>
+   <elementGuidId>1cb04b37-3b99-4b48-8931-1fee5ba79663</elementGuidId>
    <selectorCollection>
       <entry>
-         <key>XPATH</key>
-         <value>//button[@aria-label=&quot;Going to&quot;]</value>
+         <key>BASIC</key>
       </entry>
       <entry>
-         <key>BASIC</key>
-         <value></value>
+         <key>XPATH</key>
+         <value>//input[@type='email' and @id='loginFormEmailInput']</value>
       </entry>
    </selectorCollection>
    <selectorMethod>XPATH</selectorMethod>

@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <WebElementEntity>
    <description></description>
-   <name>current_month_and_year</name>
+   <name>select_flight_option</name>
    <tag></tag>
-   <elementGuidId>e62637de-e14d-4abb-b475-ac89bcc2ff2d</elementGuidId>
+   <elementGuidId>b4772deb-d87a-47d8-a490-31800dafa177</elementGuidId>
    <selectorCollection>
       <entry>
-         <key>XPATH</key>
-         <value>//div[@class='uitk-month uitk-month-double uitk-month-double-left']/span[@class=&quot;uitk-align-center uitk-month-label&quot;]</value>
+         <key>BASIC</key>
       </entry>
       <entry>
-         <key>BASIC</key>
-         <value></value>
+         <key>XPATH</key>
+         <value>//a[@aria-controls=&quot;search_form_product_selector_flights&quot;]</value>
       </entry>
    </selectorCollection>
    <selectorMethod>XPATH</selectorMethod>

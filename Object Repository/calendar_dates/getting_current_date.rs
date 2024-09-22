@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <WebElementEntity>
    <description></description>
-   <name>selecting_first_option</name>
+   <name>getting_current_date</name>
    <tag></tag>
-   <elementGuidId>acff7118-f39f-4c89-bec9-a7d4cb57a994</elementGuidId>
+   <elementGuidId>179d6211-25df-48d3-9f4b-a41d9117186c</elementGuidId>
    <selectorCollection>
       <entry>
-         <key>XPATH</key>
-         <value>//li[@data-index=&quot;0&quot;]</value>
+         <key>BASIC</key>
       </entry>
       <entry>
-         <key>BASIC</key>
-         <value></value>
+         <key>XPATH</key>
+         <value>//div[@data-testid=&quot;date-selector-playback&quot;]/button[@class=&quot;uitk-date-display selection-filled selected&quot;]</value>
       </entry>
    </selectorCollection>
    <selectorMethod>XPATH</selectorMethod>

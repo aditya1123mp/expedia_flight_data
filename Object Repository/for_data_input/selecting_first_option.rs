@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <WebElementEntity>
    <description></description>
-   <name>leaving_from_part_two</name>
+   <name>selecting_first_option</name>
    <tag></tag>
-   <elementGuidId>949fadde-4662-4f6a-9532-60c200dedd5d</elementGuidId>
+   <elementGuidId>acff7118-f39f-4c89-bec9-a7d4cb57a994</elementGuidId>
    <selectorCollection>
       <entry>
-         <key>XPATH</key>
-         <value>//input[@data-stid=&quot;origin_select-menu-input&quot; and @id=&quot;origin_select&quot;]</value>
+         <key>BASIC</key>
       </entry>
       <entry>
-         <key>BASIC</key>
-         <value></value>
+         <key>XPATH</key>
+         <value>//li[@data-index=&quot;0&quot;]</value>
       </entry>
    </selectorCollection>
    <selectorMethod>XPATH</selectorMethod>

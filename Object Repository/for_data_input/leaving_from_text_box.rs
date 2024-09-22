@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <WebElementEntity>
    <description></description>
-   <name>get_date</name>
+   <name>leaving_from_text_box</name>
    <tag></tag>
-   <elementGuidId>c1e2a10c-a3bf-43cd-a891-76837816a40a</elementGuidId>
+   <elementGuidId>a7af8c31-f1cd-4f1f-a87f-5065268a0feb</elementGuidId>
    <selectorCollection>
       <entry>
-         <key>XPATH</key>
-         <value>//button[@class=&quot;uitk-date-display selection-filled selected&quot;]</value>
+         <key>BASIC</key>
       </entry>
       <entry>
-         <key>BASIC</key>
-         <value></value>
+         <key>XPATH</key>
+         <value>//button[@aria-label=&quot;Leaving from&quot;]</value>
       </entry>
    </selectorCollection>
    <selectorMethod>XPATH</selectorMethod>

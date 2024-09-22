@@ -20,51 +20,51 @@ import org.openqa.selenium.Keys as Keys
 import com.kms.katalon.core.testng.keyword.TestNGBuiltinKeywords as TestNGKW
 import com.kms.katalon.core.testobject.ConditionType as ConditionType
 
-WebUI.click(findTestObject('Object Repository/select_flight_option'))
+WebUI.click(findTestObject('Object Repository/for_data_input/select_flight_option'))
 
 WebUI.delay(1)
 
-WebUI.click(findTestObject('Object Repository/oneway_button'))
+WebUI.click(findTestObject('Object Repository/for_data_input/oneway_button'))
 
 WebUI.delay(1)
 
 //******************************************************* leaving_from ***************************************//
 
-WebUI.click(findTestObject('Object Repository/leaving_from_text_box'))
+WebUI.click(findTestObject('Object Repository/for_data_input/leaving_from_text_box'))
 
 WebUI.delay(1)
 
 
-WebUI.click(findTestObject('Object Repository/leaving_from_part_two'))
+WebUI.click(findTestObject('Object Repository/for_data_input/leaving_from_part_two'))
 
 WebUI.delay(1)
 
 
 
-WebUI.setText(findTestObject('Object Repository/leaving_from_part_two'), GlobalVariable.leaving_from)
+WebUI.setText(findTestObject('Object Repository/for_data_input/leaving_from_part_two'), GlobalVariable.leaving_from)
 
 WebUI.delay(1)
 
 
-WebUI.click(findTestObject('Object Repository/selecting_first_option'))
+WebUI.click(findTestObject('Object Repository/for_data_input/selecting_first_option'))
 
 WebUI.delay(1)
 
 //******************************************************* going_to ***************************************//
 
-WebUI.click(findTestObject('Object Repository/going_to_text_box'))
+WebUI.click(findTestObject('Object Repository/for_data_input/going_to_text_box'))
 
 WebUI.delay(1)
 
-WebUI.click(findTestObject('Object Repository/going_to_part_two'))
+WebUI.click(findTestObject('Object Repository/for_data_input/going_to_part_two'))
 
 WebUI.delay(1)
 
-WebUI.setText(findTestObject('Object Repository/going_to_part_two'), GlobalVariable.going_to)
+WebUI.setText(findTestObject('Object Repository/for_data_input/going_to_part_two'), GlobalVariable.going_to)
 
 WebUI.delay(1)
 
-WebUI.click(findTestObject('Object Repository/selecting_first_option'))
+WebUI.click(findTestObject('Object Repository/for_data_input/selecting_first_option'))
 
 WebUI.delay(1)
 
@@ -72,7 +72,7 @@ WebUI.delay(1)
 
 WebUI.callTestCase(findTestCase('selecting_date_test_case'), [:], FailureHandling.STOP_ON_FAILURE)
 
-//WebUI.delay(2)
+WebUI.delay(2)
 
-//WebUI.click(findTestObject('Object Repository/search_button'))
+WebUI.click(findTestObject('Object Repository/for_data_input/search_button'))
 

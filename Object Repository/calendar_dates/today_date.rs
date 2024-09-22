@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <WebElementEntity>
    <description></description>
-   <name>search_button</name>
+   <name>today_date</name>
    <tag></tag>
-   <elementGuidId>a4611c49-46f3-41c4-831a-eca79fe75370</elementGuidId>
+   <elementGuidId>b6c2a401-cfed-45ac-ab46-570d6d7c0cf3</elementGuidId>
    <selectorCollection>
       <entry>
-         <key>XPATH</key>
-         <value>//button[@id='search_button']</value>
+         <key>BASIC</key>
       </entry>
       <entry>
-         <key>BASIC</key>
-         <value></value>
+         <key>XPATH</key>
+         <value>//div[@aria-label=&quot;Today&quot;]</value>
       </entry>
    </selectorCollection>
    <selectorMethod>XPATH</selectorMethod>

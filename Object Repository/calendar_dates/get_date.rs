@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <WebElementEntity>
    <description></description>
-   <name>today_date</name>
+   <name>get_date</name>
    <tag></tag>
-   <elementGuidId>b6c2a401-cfed-45ac-ab46-570d6d7c0cf3</elementGuidId>
+   <elementGuidId>c1e2a10c-a3bf-43cd-a891-76837816a40a</elementGuidId>
    <selectorCollection>
       <entry>
-         <key>XPATH</key>
-         <value>//div[@aria-label=&quot;Today&quot;]</value>
+         <key>BASIC</key>
       </entry>
       <entry>
-         <key>BASIC</key>
-         <value></value>
+         <key>XPATH</key>
+         <value>//button[@class=&quot;uitk-date-display selection-filled selected&quot;]</value>
       </entry>
    </selectorCollection>
    <selectorMethod>XPATH</selectorMethod>

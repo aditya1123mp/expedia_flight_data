@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <WebElementEntity>
    <description></description>
-   <name>select_flight_option</name>
+   <name>done_button</name>
    <tag></tag>
-   <elementGuidId>b4772deb-d87a-47d8-a490-31800dafa177</elementGuidId>
+   <elementGuidId>733f7129-4d98-493d-869d-dfbc32efacc1</elementGuidId>
    <selectorCollection>
       <entry>
          <key>XPATH</key>
-         <value>//a[@aria-controls=&quot;search_form_product_selector_flights&quot;]</value>
+         <value>//button[@data-stid=&quot;apply-date-selector&quot;]</value>
       </entry>
       <entry>
          <key>BASIC</key>

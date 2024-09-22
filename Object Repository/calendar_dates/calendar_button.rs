@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <WebElementEntity>
    <description></description>
-   <name>previous_button</name>
+   <name>calendar_button</name>
    <tag></tag>
-   <elementGuidId>1fb3362b-91fc-4589-a251-0c5bb11df099</elementGuidId>
+   <elementGuidId>2c25dc0f-0362-4c1f-8cc3-66e88f4c3d9b</elementGuidId>
    <selectorCollection>
       <entry>
-         <key>XPATH</key>
-         <value>//button[@data-stid=&quot;uitk-calendar-navigation-controls-previous-button&quot;]</value>
+         <key>BASIC</key>
       </entry>
       <entry>
-         <key>BASIC</key>
-         <value></value>
+         <key>XPATH</key>
+         <value>//button[@data-testid=&quot;uitk-date-selector-input1-default&quot;]</value>
       </entry>
    </selectorCollection>
    <selectorMethod>XPATH</selectorMethod>

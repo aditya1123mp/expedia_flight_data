@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TestCaseEntity>
+   <description></description>
+   <name>Test_case_Captcha_solving</name>
+   <tag></tag>
+   <comment></comment>
+   <recordOption>OTHER</recordOption>
+   <testCaseGuid>b92ac6aa-7dee-414b-8c34-976ec3d12e8e</testCaseGuid>
+</TestCaseEntity>

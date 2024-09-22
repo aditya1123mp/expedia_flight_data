@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <WebElementEntity>
    <description></description>
-   <name>going_to_part_two</name>
+   <name>oneway_button</name>
    <tag></tag>
-   <elementGuidId>7c59b57f-fada-425f-93e4-8feef6b4be93</elementGuidId>
+   <elementGuidId>c280d359-27de-4a52-adc1-edf8315b5b11</elementGuidId>
    <selectorCollection>
       <entry>
-         <key>XPATH</key>
-         <value>//input[@aria-label=&quot;Going to&quot; and @data-stid=&quot;destination_select-menu-input&quot;]</value>
+         <key>BASIC</key>
       </entry>
       <entry>
-         <key>BASIC</key>
-         <value></value>
+         <key>XPATH</key>
+         <value>//a[@aria-controls=&quot;FlightSearchForm_ONE_WAY&quot;]</value>
       </entry>
    </selectorCollection>
    <selectorMethod>XPATH</selectorMethod>

@@ -21,7 +21,7 @@ import com.kms.katalon.core.testng.keyword.TestNGBuiltinKeywords as TestNGKW
 import com.kms.katalon.core.testobject.ConditionType as ConditionType
 
 
-WebUI.click(findTestObject('Object Repository/select_flight_option'))
+WebUI.click(findTestObject('Object Repository/for_data_input/select_flight_option'))
 
 WebUI.delay(2)
 
@@ -29,7 +29,7 @@ WebUI.click(findTestObject('Object Repository/sign_in_button'))
 
 WebUI.click(findTestObject('Object Repository/sign_in_button_two'))
 
-WebUI.click(findTestObject('Object Repository/email_text_box'))
+WebUI.click(findTestObject('Object Repository/for_data_input/email_text_box'))
 
-WebUI.setText(findTestObject('Object Repository/email_text_box'), GlobalVariable.user_id)
+WebUI.setText(findTestObject('Object Repository/for_data_input/email_text_box'), GlobalVariable.user_id)
 

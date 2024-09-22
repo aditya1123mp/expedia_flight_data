@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <WebElementEntity>
    <description></description>
-   <name>leaving_from_text_box</name>
+   <name>going_to_part_two</name>
    <tag></tag>
-   <elementGuidId>a7af8c31-f1cd-4f1f-a87f-5065268a0feb</elementGuidId>
+   <elementGuidId>7c59b57f-fada-425f-93e4-8feef6b4be93</elementGuidId>
    <selectorCollection>
       <entry>
-         <key>XPATH</key>
-         <value>//button[@aria-label=&quot;Leaving from&quot;]</value>
+         <key>BASIC</key>
       </entry>
       <entry>
-         <key>BASIC</key>
-         <value></value>
+         <key>XPATH</key>
+         <value>//input[@aria-label=&quot;Going to&quot; and @data-stid=&quot;destination_select-menu-input&quot;]</value>
       </entry>
    </selectorCollection>
    <selectorMethod>XPATH</selectorMethod>
