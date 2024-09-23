@@ -20,91 +20,130 @@ import org.openqa.selenium.Keys as Keys
 import com.kms.katalon.core.testng.keyword.TestNGBuiltinKeywords as TestNGKW
 import com.kms.katalon.core.testobject.ConditionType as ConditionType
 import com.kms.katalon.core.webui.common.WebUiCommonHelper as WebUiCommonHelper
-import org.openqa.selenium.WebElement // Add this import
+import org.openqa.selenium.WebElement
+import static com.kms.katalon.core.testobject.ObjectRepository.findTestObject
+import static com.kms.katalon.core.testobject.ObjectRepository.findWindowsObject
+import com.kms.katalon.core.testobject.ConditionType as ConditionType
+import static com.kms.katalon.core.testobject.ObjectRepository.findTestObject
+import com.kms.katalon.core.testobject.ConditionType as ConditionType
+import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
+import com.kms.katalon.core.webui.common.WebUiCommonHelper as WebUiCommonHelper
+import org.openqa.selenium.WebElement
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
-// Check if the message "Try searching nearby airports or alternative dates" is present
+// Base URL structure for the search page
+String baseUrl = "https://www.expedia.co.in/Flights-Search?leg1=from%3AMumbai%20%28BOM-Chhatrapati%20Shivaji%20Intl.%29%2Cto%3ABengaluru%2C%20India%20%28BLR-Kempegowda%20Intl.%29%2Cdeparture%3A"
+String suffixUrl = "TANYT%2CfromType%3AU%2CtoType%3AA&mode=search&options=carrier%3A%2Ccabinclass%3A%2Cmaxhops%3A1%2Cnopenalty%3AN&passengers=adults%3A1%2Cchildren%3A0%2Cinfantinlap%3AN&trip=oneway"
+
+// Date formatter for 'yyyy-MM-dd'
+DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+
+// Get the current date
+LocalDate today = LocalDate.now()
+
+// Define the XPath for the warning message
 String warningMessageXPath = "//div[text()='Try searching nearby airports or alternative dates']"
 TestObject warningMessage = new TestObject().addProperty('xpath', ConditionType.EQUALS, warningMessageXPath)
 
+// Check if the warning message is present
 if (WebUI.verifyElementPresent(warningMessage, 5)) {
-    println("Message is present. Proceeding to change the date.")
+	println("Warning message detected. Searching for offers on future dates...")
 
-    // Click on the start date button
-    String startDateBtnXPath = "//button[@id='start-date-ONE_WAY-0-btn']"
-    TestObject startDateButton = new TestObject().addProperty('xpath', ConditionType.EQUALS, startDateBtnXPath)
-    WebUI.click(startDateButton)
-    WebUI.delay(1)
+	// Loop to generate and search for URLs with new dates for the next 20 days
+	for (int i = 1; i <= 20; i++) { // Start with the next day
+		// Add i days to the current date
+		LocalDate futureDate = today.plusDays(i)
 
-    // Select the next available date from the list
-    String availableDatesXPath = "//button[@class='uitk-date-picker-day undefined']"
-    
-    // Find all available date elements (as WebElements)
-    List<WebElement> availableDates = WebUiCommonHelper.findWebElements(new TestObject().addProperty('xpath', ConditionType.EQUALS, availableDatesXPath), 5)
+		// Format the date as 'yyyy-MM-dd'
+		String formattedDate = futureDate.format(formatter)
 
-    // If dates are available, click on the first available one by creating a new TestObject
-    if (availableDates.size() > 0) {
-        WebElement firstDateElement = availableDates[0]
-        
-        // Extract the xpath of the first available date element
-        String firstDateXPath = firstDateElement.getAttribute("xpath")
-        
-        // Create a new TestObject for the first available date using the extracted xpath
-        TestObject firstDate = new TestObject().addProperty('xpath', ConditionType.EQUALS, availableDatesXPath)
-        
-        // Click on the first available date
-        WebUI.click(firstDate)
-        WebUI.delay(1)
+		// Construct the full dynamic URL
+		String dynamicUrl = baseUrl + formattedDate + suffixUrl
 
-        // Click on the "Done" button to apply the date
-        String doneBtnXPath = "//button[@data-stid='apply-date-picker']"
-        TestObject doneButton = new TestObject().addProperty('xpath', ConditionType.EQUALS, doneBtnXPath)
-        WebUI.click(doneButton)
-        WebUI.delay(1)
-    } else {
-        println("No available dates found.")
-    }
+		// Navigate to the new URL
+		WebUI.navigateToUrl(dynamicUrl)
+		WebUI.delay(5) // Allow time for the page to load
+
+		// Define the XPath for the offer listings on the new page
+		String offerListingXPath = "//li[@data-test-id='offer-listing']"
+		TestObject offerListing = new TestObject().addProperty('xpath', ConditionType.EQUALS, offerListingXPath)
+
+		// Check if the offer listing is present
+		if (WebUI.verifyElementPresent(offerListing, 5)) {
+			println("Offer listing found for date: " + formattedDate)
+
+			// Get the elements from the offer list
+			List<WebElement> offerElements = WebUiCommonHelper.findWebElements(offerListing, 5)
+
+			// Loop through each offer element and extract the hidden details (flight info, price, etc.)
+			for (WebElement offer : offerElements) {
+				String flightInfo = offer.getText()
+
+				// Extract and format the flight details
+				formatAndDisplayFlightInfo(flightInfo)
+			}
+			
+		} else {
+			println("No offers found for date: " + formattedDate + ". Trying the next date...")
+		}
+	}
 } else {
-    println("Message not present. Skipping date selection.")
+	println("Warning message not detected. Extracting available listings...")
+
+	// Extract the available listings from the current page
+	String offerListingXPath = "//li[@data-test-id='offer-listing']"
+	TestObject offerListing = new TestObject().addProperty('xpath', ConditionType.EQUALS, offerListingXPath)
+
+	// Check if the offer listing is present
+	if (WebUI.verifyElementPresent(offerListing, 5)) {
+		println("Offer listing found on current page.")
+
+		// Get the elements from the offer list
+		List<WebElement> offerElements = WebUiCommonHelper.findWebElements(offerListing, 5)
+
+		// Loop through each offer element and extract the hidden details (flight info, price, etc.)
+		for (WebElement offer : offerElements) {
+			String flightInfo = offer.getText()
+
+			// Extract and format the flight details
+			formatAndDisplayFlightInfo(flightInfo)
+		}
+		
+	} else {
+		println("No offers found on the current page.")
+	}
 }
 
-// Now, continue with clicking buttons and extracting data
+// Method to format and display flight information
+void formatAndDisplayFlightInfo(String flightInfo) {
+	// Regex patterns to extract relevant details
+	def flightNamePattern = /^(.*) flight/
+	def departureTimePattern = /departing at (\d{2}:\d{2})/
+	def arrivalTimePattern = /arriving at (\d{2}:\d{2})/
+	def fromPattern = /from (.*)/
+	def toPattern = /-(.*)\n/
+	def pricePattern = /₹([\d,]+)/
+	def totalTimePattern = /(\d+h \d+m).*total travel time/
+	def flightTypePattern = /(Direct|Connecting)/
 
-// Maximum number of buttons to click and extract data from
-int maxButtons = 20
-int clickedButtons = 0
-int i = 1 // Start from the first button
+	// Extract details using regex matchers
+	def flightName = (flightInfo =~ flightNamePattern) ? (flightInfo =~ flightNamePattern)[0][1] : "Not Available"
+	def departureTime = (flightInfo =~ departureTimePattern) ? (flightInfo =~ departureTimePattern)[0][1] : "Not Available"
+	def arrivalTime = (flightInfo =~ arrivalTimePattern) ? (flightInfo =~ arrivalTimePattern)[0][1] : "Not Available"
+	def fromCity = (flightInfo =~ fromPattern) ? (flightInfo =~ fromPattern)[0][1].trim() : "Not Available"
+	def toCity = (flightInfo =~ toPattern) ? (flightInfo =~ toPattern)[0][1].trim() : "Not Available"
+	def price = (flightInfo =~ pricePattern) ? (flightInfo =~ pricePattern)[0][1] : "Not Available"
+	def totalTime = (flightInfo =~ totalTimePattern) ? (flightInfo =~ totalTimePattern)[0][1] : "Not Available"
+	def flightType = (flightInfo =~ flightTypePattern) ? (flightInfo =~ flightTypePattern)[0][1] : "Not Available"
 
-while (clickedButtons < maxButtons) {
-    // XPath to select the button dynamically
-    String buttonXPath = "//ul[@role='tablist']/li[" + i + "]/button[@type='button']"
-    TestObject button = new TestObject().addProperty('xpath', ConditionType.EQUALS, buttonXPath)
-
-    // Verify if the button is present (wait for up to 5 seconds)
-    if (WebUI.verifyElementPresent(button, 5)) {
-        // Click the button
-        WebUI.click(button)
-        WebUI.delay(1) // Optional delay after clicking
-
-        // XPath for extracting the date and price from the clicked button
-        String dateXPath = "//ul[@role='tablist']/li[" + i + "]/button[@type='button']/div[contains(@class, 'date')]"
-        String priceXPath = "//ul[@role='tablist']/li[" + i + "]/button[@type='button']/div[contains(@class, 'price')]"
-        
-        // Extract the date and price text
-        TestObject dateElement = new TestObject().addProperty('xpath', ConditionType.EQUALS, dateXPath)
-        TestObject priceElement = new TestObject().addProperty('xpath', ConditionType.EQUALS, priceXPath)
-
-        String date = WebUI.getText(dateElement)
-        String price = WebUI.getText(priceElement)
-
-        // Log the extracted data
-        println("Button " + (clickedButtons + 1) + " - Date: " + date + ", Price: " + price)
-
-        // Increment the count of clicked buttons
-        clickedButtons++
-    } else {
-        println("Button at index " + i + " is not present or visible.")
-    }
-
-    // Move to the next button
-    i++
+	// Print the flight information in the required format
+	println("Flight Name: " + flightName)
+	println("Departing at: " + departureTime)
+	println("Arriving at: " + arrivalTime)
+	println("From: " + fromCity)
+	println("To: " + toCity)
+	println("Price: ₹" + price)
+	println("Total Time: " + totalTime)
+	println("Flight Type: " + flightType)
 }
