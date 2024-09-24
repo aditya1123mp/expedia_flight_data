@@ -54,12 +54,12 @@ if (captchaAppeared) {
     if (captchaSolved) {
         println("CAPTCHA solved. Proceeding with the main flow.")
         // Call the dummy test case after CAPTCHA is solved
-        WebUI.callTestCase(findTestCase('dummy_test_case'), [:], FailureHandling.STOP_ON_FAILURE)
+        WebUI.callTestCase(findTestCase('Test_Case_to_extract_data_and_save_in_txt_file'), [:], FailureHandling.STOP_ON_FAILURE)
     } else {
         KeywordUtil.markFailed("CAPTCHA iframe is still present after waiting for 1 minute.")
     }
 } else {
     println("CAPTCHA did not appear. Continuing with the script.")
     // Call the dummy test case if CAPTCHA did not appear
-    WebUI.callTestCase(findTestCase('dummy_test_case'), [:], FailureHandling.STOP_ON_FAILURE)
+    WebUI.callTestCase(findTestCase('Test_Case_to_extract_data_and_save_in_txt_file'), [:], FailureHandling.STOP_ON_FAILURE)
 }

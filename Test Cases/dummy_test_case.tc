@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<TestCaseEntity>
-   <description></description>
-   <name>dummy_test_case</name>
-   <tag></tag>
-   <comment></comment>
-   <recordOption>OTHER</recordOption>
-   <testCaseGuid>b2ccae78-7509-4a62-a011-1b6cb61a0f28</testCaseGuid>
-</TestCaseEntity>
