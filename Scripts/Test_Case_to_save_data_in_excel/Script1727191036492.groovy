@@ -87,24 +87,25 @@ datasets.each { dataset ->
 			}
 		}
 
-		// Flight carrier extraction (shift to index 6 if stop details are present)
-		if (index == 5 && stopDetails) {
-			// Adjust indices if stop details are found
-			flightCarrier = dataset[index + 1].trim() // Now flightCarrier will be at index 6
-		} else if (index == 5 && !stopDetails) {
-			flightCarrier = line.trim() // No stops, so flightCarrier is in index 5
+		// Flight carrier extraction
+		if (index == 5) {
+			flightCarrier = line.trim() // No need for specific flight names, take as a whole
 		}
 
-		// Ticket price extraction (shift to index 7 if stop details are present)
-		if (index == 6 && stopDetails) {
-			ticketPrice = dataset[index + 1].replaceAll("[^0-9₹,]", "").trim() // Now ticketPrice will be at index 7
-		} else if (index == 6 && !stopDetails) {
-			ticketPrice = line.replaceAll("[^0-9₹,]", "").trim() // No stops, so ticketPrice is in index 6
+		// Ticket price extraction with fallback for "2 left" cases
+		if (index == 6 && line.contains("₹")) {
+			// Normal case where price is in index 6
+			ticketPrice = line.replaceAll("[^0-9₹,]", "").trim()
+		} else if (index == 8 && line.contains("₹")) {
+			// Fallback case where price is in index 7 due to "2 left at this price"
+			ticketPrice = dataset[index].replaceAll("[^0-9₹,]", "").trim()
 		}
 
-		// Handle single-digit ticket prices, convert to numeric format
-		if (ticketPrice.isInteger()) {
-			ticketPrice = ticketPrice.toInteger().toString() // Ensure it's saved as a number
+		// Handle numeric conversion of ticket price by removing commas
+		if (ticketPrice.contains("₹")) {
+			// Remove comma and convert the string to a double
+			String numericTicketPrice = ticketPrice.replace("₹", "").replace(",", "").trim()
+			ticketPrice = numericTicketPrice // This will now be a numeric string without commas
 		}
 	}
 
@@ -118,8 +119,8 @@ datasets.each { dataset ->
 	row.createCell(5).setCellValue(flightCarrier)
 	
 	// Write ticket price as a number if it’s numeric
-	if (ticketPrice.isInteger()) {
-		row.createCell(6).setCellValue(ticketPrice.toInteger()) // Save as a numeric value
+	if (ticketPrice.isNumber()) {
+		row.createCell(6).setCellValue(ticketPrice.toDouble()) // Save as numeric value
 	} else {
 		row.createCell(6).setCellValue(ticketPrice) // Save as text if it’s not numeric
 	}
@@ -133,4 +134,4 @@ workbook.write(fileOut)
 fileOut.close()
 workbook.close()
 
-println "All flight details saved to Excel with correct ticket price formatting!"
+println "All flight details saved to Excel with proper ticket price formatting!"
