@@ -25,3 +25,5 @@ WebUI.callTestCase(findTestCase('Test_case_Captcha_solving'), [:], FailureHandli
 
 WebUI.callTestCase(findTestCase('Test_Case_to_save_data_in_excel'), [:], FailureHandling.STOP_ON_FAILURE)
 
+WebUI.callTestCase(findTestCase('Mail_Test_Case'), [:], FailureHandling.STOP_ON_FAILURE)
+

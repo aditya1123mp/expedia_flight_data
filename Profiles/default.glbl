@@ -19,4 +19,19 @@
       <initValue>'Mumbai, India (BOM-Chhatrapati Shivaji Intl.)'</initValue>
       <name>leaving_from</name>
    </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description>Please enter your_email id</description>
+      <initValue>''</initValue>
+      <name>your_email</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description>Please enter your_email_id_password</description>
+      <initValue>''</initValue>
+      <name>your_email_password</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description>please enter your recipient_email</description>
+      <initValue>''</initValue>
+      <name>recipient_email</name>
+   </GlobalVariableEntity>
 </GlobalVariableEntities>
