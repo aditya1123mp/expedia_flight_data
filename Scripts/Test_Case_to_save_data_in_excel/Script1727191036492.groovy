@@ -7,17 +7,27 @@ import java.nio.file.Paths
 File file = new File("C:\\Users\\DELL\\OneDrive\\Desktop\\mail\\Flight_Details.txt")
 List<String> lines = file.readLines()
 
-// Initialize variables
-String date = ""
-String departureTime = ""
-String arrivalTime = ""
-String fromLocation = ""
-String toLocation = ""
-String flightCarrier = ""
-String ticketPrice = ""
-String timeOfFlight = ""
+// Split the file content into individual datasets using the separator
+List<List<String>> datasets = []
+List<String> currentDataset = []
 
-// Prepare for Excel creation
+lines.each { line ->
+	if (line.contains("--------------------------------------------------------")) {
+		if (currentDataset) {
+			datasets.add(currentDataset)
+			currentDataset = []
+		}
+	} else {
+		currentDataset.add(line)
+	}
+}
+
+// Don't forget to add the last dataset
+if (currentDataset) {
+	datasets.add(currentDataset)
+}
+
+// Create a new Excel workbook and sheet
 Workbook workbook = new XSSFWorkbook()
 Sheet sheet = workbook.createSheet("Flight Details")
 
@@ -30,52 +40,97 @@ header.createCell(3).setCellValue("From")
 header.createCell(4).setCellValue("To")
 header.createCell(5).setCellValue("Flight Carrier Name")
 header.createCell(6).setCellValue("Ticket Price")
-header.createCell(7).setCellValue("Time of Flight")
+header.createCell(7).setCellValue("Flight Duration")
 
-// Start row count for flight data
-int rowCount = 1
+// Variable to keep track of row number in the Excel file
+int rowNum = 1
 
-// Iterate through the lines to extract the details based on the logic
-lines.each { line ->
-    // Split the line using commas to deal with the misplaced data
-    def splitLine = line.split(",")
-    
-    if (splitLine.size() > 5) {
-        // Extract key flight details
-        date = splitLine[0].trim()  // Assuming the first element is always the date
-        departureTime = splitLine[1].trim()  // Assuming the second element is the departure time
-        arrivalTime = splitLine[2].trim()  // Assuming the third element is the arrival time
-        fromLocation = "Mumbai (BOM)"  // You can add more flexible parsing logic if necessary
-        toLocation = "Bengaluru (BLR)"  // Same for destination
-        
-        // Identify the flight carrier (IndiGo) and clean the string
-        flightCarrier = "IndiGo" // Set manually based on the input, or use regex for dynamic parsing
-        
-        // Extract the ticket price using regex to find the ₹ symbol followed by numbers
-        ticketPrice = line.find(/₹\d{1,3}(,\d{3})*/)?.trim() ?: "Not Available"
-        
-        // Extract flight duration and stopover information
-        timeOfFlight = splitLine.find { it.contains("h") }?.trim() ?: "Unknown"
+// Iterate over each dataset and extract the details
+datasets.each { dataset ->
+	String date = "Unknown"
+	String departureTime = "Unknown"
+	String arrivalTime = "Unknown"
+	String fromLocation = "Unknown"
+	String toLocation = "Unknown"
+	String flightCarrier = "Unknown"
+	String ticketPrice = "Unknown"
+	String flightDuration = "Unknown"
+	String stopDetails = ""
 
-        // Write to Excel row
-        Row row = sheet.createRow(rowCount)
-        row.createCell(0).setCellValue(date)
-        row.createCell(1).setCellValue(departureTime)
-        row.createCell(2).setCellValue(arrivalTime)
-        row.createCell(3).setCellValue(fromLocation)
-        row.createCell(4).setCellValue(toLocation)
-        row.createCell(5).setCellValue(flightCarrier)
-        row.createCell(6).setCellValue(ticketPrice)
-        row.createCell(7).setCellValue(timeOfFlight)
-        
-        rowCount++  // Move to the next row for the next set of data
-    }
+	dataset.eachWithIndex { line, index ->
+		// Date extraction
+		if (index == 0 && line.contains("Date:")) {
+			date = line.split(":")[1].trim()
+		}
+
+		// Departure and Arrival Times extraction
+		if (index == 2 && line.contains(" - ")) {
+			def times = line.split(" - ")
+			departureTime = times[0].trim()
+			arrivalTime = times[1].trim() // Keep +1 in arrival time if present
+		}
+
+		// From and To location extraction
+		if (index == 3 && line.contains(" - ")) {
+			def locations = line.split(" - ")
+			fromLocation = locations[0].trim()
+			toLocation = locations[1].trim()
+		}
+
+		// Flight duration extraction, including stops if present
+		if (index == 4 && (line.contains("h") || line.contains("m"))) {
+			flightDuration = line.trim()
+			// If the flight has stop details (e.g., "1 stop"), extract from index 5
+			if (line.contains("stop") && dataset.size() > index + 1) {
+				stopDetails = dataset[index + 1].trim() // Get the stop details from index 5
+				flightDuration += " - " + stopDetails // Combine stop details with duration
+			}
+		}
+
+		// Flight carrier extraction (shift to index 6 if stop details are present)
+		if (index == 5 && stopDetails) {
+			// Adjust indices if stop details are found
+			flightCarrier = dataset[index + 1].trim() // Now flightCarrier will be at index 6
+		} else if (index == 5 && !stopDetails) {
+			flightCarrier = line.trim() // No stops, so flightCarrier is in index 5
+		}
+
+		// Ticket price extraction (shift to index 7 if stop details are present)
+		if (index == 6 && stopDetails) {
+			ticketPrice = dataset[index + 1].replaceAll("[^0-9₹,]", "").trim() // Now ticketPrice will be at index 7
+		} else if (index == 6 && !stopDetails) {
+			ticketPrice = line.replaceAll("[^0-9₹,]", "").trim() // No stops, so ticketPrice is in index 6
+		}
+
+		// Handle single-digit ticket prices, convert to numeric format
+		if (ticketPrice.isInteger()) {
+			ticketPrice = ticketPrice.toInteger().toString() // Ensure it's saved as a number
+		}
+	}
+
+	// Write the extracted data to the Excel file
+	Row row = sheet.createRow(rowNum++)
+	row.createCell(0).setCellValue(date)
+	row.createCell(1).setCellValue(departureTime)
+	row.createCell(2).setCellValue(arrivalTime)
+	row.createCell(3).setCellValue(fromLocation)
+	row.createCell(4).setCellValue(toLocation)
+	row.createCell(5).setCellValue(flightCarrier)
+	
+	// Write ticket price as a number if it’s numeric
+	if (ticketPrice.isInteger()) {
+		row.createCell(6).setCellValue(ticketPrice.toInteger()) // Save as a numeric value
+	} else {
+		row.createCell(6).setCellValue(ticketPrice) // Save as text if it’s not numeric
+	}
+	
+	row.createCell(7).setCellValue(flightDuration)
 }
 
 // Save the Excel file
-FileOutputStream fileOut = new FileOutputStream("C:\\Users\\DELL\\OneDrive\\Desktop\\mail\\Flight_Details_data.xlsx")
+FileOutputStream fileOut = new FileOutputStream("C:\\Users\\DELL\\OneDrive\\Desktop\\mail\\Flight_Details_data_updated.xlsx")
 workbook.write(fileOut)
 fileOut.close()
 workbook.close()
 
-println "Flight details successfully saved to Excel!"
+println "All flight details saved to Excel with correct ticket price formatting!"
